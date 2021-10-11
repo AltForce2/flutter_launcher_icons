@@ -28,6 +28,14 @@ List<AndroidIconTemplate> androidIcons = <AndroidIconTemplate>[
   AndroidIconTemplate(directoryName: 'mipmap-xxxhdpi', size: 192),
 ];
 
+List<AndroidIconTemplate> androidNotificationIcons = <AndroidIconTemplate>[
+  AndroidIconTemplate(directoryName: 'drawable-mdpi', size: 48),
+  AndroidIconTemplate(directoryName: 'drawable-hdpi', size: 72),
+  AndroidIconTemplate(directoryName: 'drawable-xhdpi', size: 96),
+  AndroidIconTemplate(directoryName: 'drawable-xxhdpi', size: 144),
+  AndroidIconTemplate(directoryName: 'drawable-xxxhdpi', size: 192),
+];
+
 void createDefaultIcons(
     Map<String, dynamic> flutterLauncherIconsConfig, String? flavor) {
   printStatus('Creating default icons Android');
@@ -95,6 +103,27 @@ void createAdaptiveIcons(
   } else {
     createAdaptiveIconMipmapXmlFile(flutterLauncherIconsConfig, flavor);
     updateColorsXmlFile(backgroundConfig, flavor);
+  }
+}
+
+void createNotificationIcons(
+    Map<String, dynamic> flutterLauncherIconsConfig, String? flavor) {
+  printStatus('Creating notification icons Android');
+  final String filePath =
+      getAndroidNotificationIconPath(flutterLauncherIconsConfig);
+  final Image? image = decodeImageFile(filePath);
+  if (image == null) {
+    return;
+  }
+  final String iconName =
+      getNewNotificationIconName(flutterLauncherIconsConfig);
+  printStatus('Adding a new Android notification icon');
+
+  isAndroidIconNameCorrectFormat(iconName);
+  final String iconPath = '$iconName.png';
+
+  for (AndroidIconTemplate template in androidNotificationIcons) {
+    saveNewImages(template, image, iconPath, flavor);
   }
 }
 
@@ -227,6 +256,10 @@ String getNewIconName(Map<String, dynamic> config) {
   return config['android'];
 }
 
+String getNewNotificationIconName(Map<String, dynamic> config) {
+  return config['notification_icon_name'];
+}
+
 /// Overrides the existing launcher icons in the project
 /// Note: Do not change interpolation unless you end up with better results (see issue for result when using cubic
 /// interpolation)
@@ -317,6 +350,10 @@ int minSdk() {
 /// value.
 String getAndroidIconPath(Map<String, dynamic> config) {
   return config['image_path_android'] ?? config['image_path'];
+}
+
+String getAndroidNotificationIconPath(Map<String, dynamic> config) {
+  return config['notification_icon_path'];
 }
 
 /// Returns true if the adaptive icon configuration is a PNG image
