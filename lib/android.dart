@@ -1,9 +1,10 @@
 import 'dart:io';
+
+import 'package:flutter_launcher_icons/constants.dart' as constants;
+import 'package:flutter_launcher_icons/custom_exceptions.dart';
 import 'package:flutter_launcher_icons/utils.dart';
 import 'package:flutter_launcher_icons/xml_templates.dart' as xml_template;
 import 'package:image/image.dart';
-import 'package:flutter_launcher_icons/custom_exceptions.dart';
-import 'package:flutter_launcher_icons/constants.dart' as constants;
 
 class AndroidIconTemplate {
   AndroidIconTemplate({required this.size, required this.directoryName});
