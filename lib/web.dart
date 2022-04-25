@@ -59,7 +59,7 @@ void _saveWebManifestFile(File file) {
 
 void _saveWebBaseFiles(List<File> files, String folderName) {
   for (var file in files) {
-    final String fileName = file.path.split('/').last;
+    final String fileName = file.path.split('/').last.toLowerCase();
     final String newFilePath = '$folderName$fileName';
     final File newFile = File(newFilePath);
     if (!newFile.existsSync()) {
