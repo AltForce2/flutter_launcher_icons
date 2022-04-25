@@ -36,7 +36,9 @@ List<File> getWebFiles(String filesPath) {
 
 void saveWebFiles(List<File> files) {
   for (var file in files) {
+    print('file.path --> ${file.path}');
     final String fileName = file.path.split('/').last;
+    print('fileName--> $fileName');
     final String newFilePath = '${constants.webResFolder}$fileName';
     final File newFile = File(newFilePath);
     if (!newFile.existsSync()) {
