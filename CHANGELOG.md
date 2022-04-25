@@ -1,4 +1,7 @@
 # Changelog
+## 1.0.0
+
+- Add WEB support
 
 ## 0.9.2 (22nd August 2021)
 
