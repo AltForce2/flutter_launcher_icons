@@ -203,8 +203,9 @@ bool hasAndroidAdaptiveConfig(Map<String, dynamic> flutterLauncherIconsConfig) {
 bool hasAndroidNotificationConfig(
     Map<String, dynamic> flutterLauncherIconsConfig) {
   return isNeedingNewAndroidIcon(flutterLauncherIconsConfig) &&
-      flutterLauncherIconsConfig.containsKey('notification_icon_path') &&
-      flutterLauncherIconsConfig.containsKey('notification_icon_name');
+      flutterLauncherIconsConfig
+          .containsKey('android_notification_icon_path') &&
+      flutterLauncherIconsConfig.containsKey('android_notification_icon_name');
 }
 
 bool hasIOSConfig(Map<String, dynamic> flutterLauncherIconsConfig) {

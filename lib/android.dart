@@ -257,7 +257,7 @@ String getNewIconName(Map<String, dynamic> config) {
 }
 
 String getNewNotificationIconName(Map<String, dynamic> config) {
-  return config['notification_icon_name'];
+  return config['android_notification_icon_name'];
 }
 
 /// Overrides the existing launcher icons in the project
@@ -353,7 +353,7 @@ String getAndroidIconPath(Map<String, dynamic> config) {
 }
 
 String getAndroidNotificationIconPath(Map<String, dynamic> config) {
-  return config['notification_icon_path'];
+  return config['android_notification_icon_path'];
 }
 
 /// Returns true if the adaptive icon configuration is a PNG image
