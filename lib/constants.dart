@@ -18,6 +18,7 @@ const String iosConfigFile = 'ios/Runner.xcodeproj/project.pbxproj';
 const String iosDefaultIconName = 'Icon-App';
 
 const String webResFolder = 'web/';
+const String webIconsFolder = '$webResFolder\icons/';
 const String newAppleTouchIconFilePath = 'icons/apple-touch-icon.png';
 const String newShortcutIconFilePath = 'icons/shortcut.png';
 

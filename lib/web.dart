@@ -8,16 +8,31 @@ void createIcons(
   String? flavor,
 ) {
   printStatus('Creating icons WEB');
-  final String filesPath = getWebFilesPath(flutterLauncherIconsConfig);
-  final List<File> files = getWebFiles(filesPath);
-  saveWebFiles(files);
+  getAndSaveWebFiles(flutterLauncherIconsConfig);
   editIndexFile();
 }
 
-List<File> getWebFiles(String filesPath) {
+void getAndSaveWebFiles(Map<String, dynamic> flutterLauncherIconsConfig) {
+  final List<File> iconsFiles = _getWebIconsFiles(flutterLauncherIconsConfig);
+  _saveWebIconsFiles(iconsFiles);
+
+  final File manifestFile = _getWebManifestFile(flutterLauncherIconsConfig);
+  _saveWebManifestFile(manifestFile);
+}
+
+File _getWebManifestFile(
+  Map<String, dynamic> flutterLauncherIconsConfig,
+) {
+  final String manifestPath = getWebManifestPath(flutterLauncherIconsConfig);
+
+  return File(manifestPath);
+}
+
+List<File> _getWebIconsFiles(Map<String, dynamic> flutterLauncherIconsConfig) {
   final List<File> files = [];
 
-  final Directory dir = Directory(filesPath);
+  final String iconsPath = getWebIconsPath(flutterLauncherIconsConfig);
+  final Directory dir = Directory(iconsPath);
 
   void task(List<FileSystemEntity> entities) {
     for (var file in entities) {
@@ -34,12 +49,18 @@ List<File> getWebFiles(String filesPath) {
   return files;
 }
 
-void saveWebFiles(List<File> files) {
+void _saveWebIconsFiles(List<File> files) {
+  _saveWebBaseFiles(files, constants.webIconsFolder);
+}
+
+void _saveWebManifestFile(File file) {
+  _saveWebBaseFiles([file], constants.webResFolder);
+}
+
+void _saveWebBaseFiles(List<File> files, String folderName) {
   for (var file in files) {
-    print('file.path --> ${file.path}');
     final String fileName = file.path.split('/').last;
-    print('fileName--> $fileName');
-    final String newFilePath = '${constants.webResFolder}$fileName';
+    final String newFilePath = '$folderName$fileName';
     final File newFile = File(newFilePath);
     if (!newFile.existsSync()) {
       newFile.createSync(recursive: true);
@@ -159,6 +180,10 @@ String _replaceIndexTag({
   return indexFileContent;
 }
 
-String getWebFilesPath(Map<String, dynamic> config) {
-  return config['web_files_path'];
+String getWebIconsPath(Map<String, dynamic> config) {
+  return config['web_icons_path'];
+}
+
+String getWebManifestPath(Map<String, dynamic> config) {
+  return config['web_manifest_path'];
 }
