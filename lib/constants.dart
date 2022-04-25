@@ -1,11 +1,14 @@
-String androidResFolder(String? flavor) => "android/app/src/${flavor ?? 'main'}/res/";
-String androidColorsFile(String? flavor) => "android/app/src/${flavor ?? 'main'}/res/values/colors.xml";
+String androidResFolder(String? flavor) =>
+    "android/app/src/${flavor ?? 'main'}/res/";
+String androidColorsFile(String? flavor) =>
+    "android/app/src/${flavor ?? 'main'}/res/values/colors.xml";
 const String androidManifestFile = 'android/app/src/main/AndroidManifest.xml';
 const String androidGradleFile = 'android/app/build.gradle';
 const String androidFileName = 'ic_launcher.png';
 const String androidAdaptiveForegroundFileName = 'ic_launcher_foreground.png';
 const String androidAdaptiveBackgroundFileName = 'ic_launcher_background.png';
-String androidAdaptiveXmlFolder(String? flavor) => androidResFolder(flavor) + 'mipmap-anydpi-v26/';
+String androidAdaptiveXmlFolder(String? flavor) =>
+    androidResFolder(flavor) + 'mipmap-anydpi-v26/';
 const String androidDefaultIconName = 'ic_launcher';
 
 const String iosDefaultIconFolder =
@@ -13,6 +16,10 @@ const String iosDefaultIconFolder =
 const String iosAssetFolder = 'ios/Runner/Assets.xcassets/';
 const String iosConfigFile = 'ios/Runner.xcodeproj/project.pbxproj';
 const String iosDefaultIconName = 'Icon-App';
+
+const String webResFolder = 'web/';
+const String newAppleTouchIconFilePath = 'icons/apple-touch-icon.png';
+const String newShortcutIconFilePath = 'icons/shortcut.png';
 
 const String errorMissingImagePath =
     'Missing "image_path" or "image_path_android" + "image_path_ios" within configuration';
