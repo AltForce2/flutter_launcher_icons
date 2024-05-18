@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:flutter_launcher_icons/constants.dart';
 import 'package:flutter_launcher_icons/utils.dart';
-import 'package:image/image.dart';
+import 'package:image/image.dart' as imagePckg;
 
 /// File to handle the creation of icons for iOS platform
 class IosIconTemplate {
@@ -35,17 +35,15 @@ void createIcons(Map<String, dynamic> config, String? flavor) {
   final String filePath = config['image_path_ios'] ?? config['image_path'];
   // decodeImageFile shows error message if null
   // so can return here if image is null
-  final Image? image = decodeImage(File(filePath).readAsBytesSync());
+  imagePckg.Image? image =
+      imagePckg.decodeImage(File(filePath).readAsBytesSync());
   if (image == null) {
     return;
   }
   if (config['remove_alpha_ios'] is bool && config['remove_alpha_ios']) {
-    image.channels = Channels.rgb;
+    image = image.convert(numChannels: 3);
   }
-  if (image.channels == Channels.rgba) {
-    print(
-        '\nWARNING: Icons with alpha channel are not allowed in the Apple App Store.\nSet "remove_alpha_ios: true" to remove it.\n');
-  }
+
   String iconName;
   final dynamic iosConfig = config['ios'];
   if (flavor != null) {
@@ -84,36 +82,38 @@ void createIcons(Map<String, dynamic> config, String? flavor) {
 /// Note: Do not change interpolation unless you end up with better results (see issue for result when using cubic
 /// interpolation)
 /// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
-void overwriteDefaultIcons(IosIconTemplate template, Image image) {
-  final Image newFile = createResizedImage(template, image);
+void overwriteDefaultIcons(IosIconTemplate template, imagePckg.Image image) {
+  final imagePckg.Image newFile = createResizedImage(template, image);
   File(iosDefaultIconFolder + iosDefaultIconName + template.name + '.png')
-    ..writeAsBytesSync(encodePng(newFile));
+    ..writeAsBytesSync(imagePckg.encodePng(newFile));
 }
 
 /// Note: Do not change interpolation unless you end up with better results (see issue for result when using cubic
 /// interpolation)
 /// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
-void saveNewIcons(IosIconTemplate template, Image image, String newIconName) {
+void saveNewIcons(
+    IosIconTemplate template, imagePckg.Image image, String newIconName) {
   final String newIconFolder = iosAssetFolder + newIconName + '.appiconset/';
-  final Image newFile = createResizedImage(template, image);
+  final imagePckg.Image newFile = createResizedImage(template, image);
   File(newIconFolder + newIconName + template.name + '.png')
       .create(recursive: true)
       .then((File file) {
-    file.writeAsBytesSync(encodePng(newFile));
+    file.writeAsBytesSync(imagePckg.encodePng(newFile));
   });
 }
 
-Image createResizedImage(IosIconTemplate template, Image image) {
+imagePckg.Image createResizedImage(
+    IosIconTemplate template, imagePckg.Image image) {
   if (image.width >= template.size) {
-    return copyResize(image,
+    return imagePckg.copyResize(image,
         width: template.size,
         height: template.size,
-        interpolation: Interpolation.average);
+        interpolation: imagePckg.Interpolation.average);
   } else {
-    return copyResize(image,
+    return imagePckg.copyResize(image,
         width: template.size,
         height: template.size,
-        interpolation: Interpolation.linear);
+        interpolation: imagePckg.Interpolation.linear);
   }
 }
 
