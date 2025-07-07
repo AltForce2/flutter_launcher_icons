@@ -332,7 +332,7 @@ List<String> transformAndroidManifestWithNewLauncherIcon(
   }).toList();
 }
 
-/// Retrieves the minSdk value from the Android build.gradle file
+/// Retrieves the minSdk value from the Android build.gradle.kts file
 int minSdk() {
   final File androidGradleFile = File(constants.androidGradleFile);
   final List<String> lines = androidGradleFile.readAsLinesSync();
