@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:flutter_launcher_icons/constants.dart';
 import 'package:flutter_launcher_icons/utils.dart';
-import 'package:image/image.dart' as imagePckg;
+import 'package:image/image.dart' as imagepckg;
 
 /// File to handle the creation of icons for iOS platform
 class IosIconTemplate {
@@ -35,8 +35,8 @@ void createIcons(Map<String, dynamic> config, String? flavor) {
   final String filePath = config['image_path_ios'] ?? config['image_path'];
   // decodeImageFile shows error message if null
   // so can return here if image is null
-  imagePckg.Image? image =
-      imagePckg.decodeImage(File(filePath).readAsBytesSync());
+  imagepckg.Image? image =
+      imagepckg.decodeImage(File(filePath).readAsBytesSync());
   if (image == null) {
     return;
   }
@@ -82,38 +82,38 @@ void createIcons(Map<String, dynamic> config, String? flavor) {
 /// Note: Do not change interpolation unless you end up with better results (see issue for result when using cubic
 /// interpolation)
 /// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
-void overwriteDefaultIcons(IosIconTemplate template, imagePckg.Image image) {
-  final imagePckg.Image newFile = createResizedImage(template, image);
+void overwriteDefaultIcons(IosIconTemplate template, imagepckg.Image image) {
+  final imagepckg.Image newFile = createResizedImage(template, image);
   File(iosDefaultIconFolder + iosDefaultIconName + template.name + '.png')
-    ..writeAsBytesSync(imagePckg.encodePng(newFile));
+    ..writeAsBytesSync(imagepckg.encodePng(newFile));
 }
 
 /// Note: Do not change interpolation unless you end up with better results (see issue for result when using cubic
 /// interpolation)
 /// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
 void saveNewIcons(
-    IosIconTemplate template, imagePckg.Image image, String newIconName) {
+    IosIconTemplate template, imagepckg.Image image, String newIconName) {
   final String newIconFolder = iosAssetFolder + newIconName + '.appiconset/';
-  final imagePckg.Image newFile = createResizedImage(template, image);
+  final imagepckg.Image newFile = createResizedImage(template, image);
   File(newIconFolder + newIconName + template.name + '.png')
       .create(recursive: true)
       .then((File file) {
-    file.writeAsBytesSync(imagePckg.encodePng(newFile));
+    file.writeAsBytesSync(imagepckg.encodePng(newFile));
   });
 }
 
-imagePckg.Image createResizedImage(
-    IosIconTemplate template, imagePckg.Image image) {
+imagepckg.Image createResizedImage(
+    IosIconTemplate template, imagepckg.Image image) {
   if (image.width >= template.size) {
-    return imagePckg.copyResize(image,
+    return imagepckg.copyResize(image,
         width: template.size,
         height: template.size,
-        interpolation: imagePckg.Interpolation.average);
+        interpolation: imagepckg.Interpolation.average);
   } else {
-    return imagePckg.copyResize(image,
+    return imagepckg.copyResize(image,
         width: template.size,
         height: template.size,
-        interpolation: imagePckg.Interpolation.linear);
+        interpolation: imagepckg.Interpolation.linear);
   }
 }
 

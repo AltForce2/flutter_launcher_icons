@@ -4,7 +4,7 @@ import 'package:flutter_launcher_icons/constants.dart' as constants;
 import 'package:flutter_launcher_icons/custom_exceptions.dart';
 import 'package:flutter_launcher_icons/utils.dart';
 import 'package:flutter_launcher_icons/xml_templates.dart' as xml_template;
-import 'package:image/image.dart' as imagePckg;
+import 'package:image/image.dart' as imagepckg;
 
 class AndroidIconTemplate {
   AndroidIconTemplate({required this.size, required this.directoryName});
@@ -41,7 +41,7 @@ void createDefaultIcons(
     Map<String, dynamic> flutterLauncherIconsConfig, String? flavor) {
   printStatus('Creating default icons Android');
   final String filePath = getAndroidIconPath(flutterLauncherIconsConfig);
-  final imagePckg.Image? image = decodeImageFile(filePath);
+  final imagepckg.Image? image = decodeImageFile(filePath);
   if (image == null) {
     return;
   }
@@ -86,7 +86,7 @@ void createAdaptiveIcons(
       flutterLauncherIconsConfig['adaptive_icon_background'];
   final String foregroundImagePath =
       flutterLauncherIconsConfig['adaptive_icon_foreground'];
-  final imagePckg.Image? foregroundImage = decodeImageFile(foregroundImagePath);
+  final imagepckg.Image? foregroundImage = decodeImageFile(foregroundImagePath);
   if (foregroundImage == null) {
     return;
   }
@@ -112,7 +112,7 @@ void createNotificationIcons(
   printStatus('Creating notification icons Android');
   final String filePath =
       getAndroidNotificationIconPath(flutterLauncherIconsConfig);
-  final imagePckg.Image? image = decodeImageFile(filePath);
+  final imagepckg.Image? image = decodeImageFile(filePath);
   if (image == null) {
     return;
   }
@@ -175,7 +175,7 @@ void createAdaptiveIconMipmapXmlFile(
 void createAdaptiveBackgrounds(Map<String, dynamic> yamlConfig,
     String adaptiveIconBackgroundImagePath, String? flavor) {
   final String filePath = adaptiveIconBackgroundImagePath;
-  final imagePckg.Image? image = decodeImageFile(filePath);
+  final imagepckg.Image? image = decodeImageFile(filePath);
   if (image == null) {
     return;
   }
@@ -267,34 +267,34 @@ String getNewNotificationIconName(Map<String, dynamic> config) {
 /// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
 void overwriteExistingIcons(
   AndroidIconTemplate template,
-  imagePckg.Image image,
+  imagepckg.Image image,
   String filename,
   String? flavor,
 ) {
-  final imagePckg.Image newFile = createResizedImage(template.size, image);
+  final imagepckg.Image newFile = createResizedImage(template.size, image);
   File(constants.androidResFolder(flavor) +
           template.directoryName +
           '/' +
           filename)
       .create(recursive: true)
       .then((File file) {
-    file.writeAsBytesSync(imagePckg.encodePng(newFile));
+    file.writeAsBytesSync(imagepckg.encodePng(newFile));
   });
 }
 
 /// Saves new launcher icons to the project, keeping the old launcher icons.
 /// Note: Do not change interpolation unless you end up with better results
 /// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
-void saveNewImages(AndroidIconTemplate template, imagePckg.Image image,
+void saveNewImages(AndroidIconTemplate template, imagepckg.Image image,
     String iconFilePath, String? flavor) {
-  final imagePckg.Image newFile = createResizedImage(template.size, image);
+  final imagepckg.Image newFile = createResizedImage(template.size, image);
   File(constants.androidResFolder(flavor) +
           template.directoryName +
           '/' +
           iconFilePath)
       .create(recursive: true)
       .then((File file) {
-    file.writeAsBytesSync(imagePckg.encodePng(newFile));
+    file.writeAsBytesSync(imagepckg.encodePng(newFile));
   });
 }
 
