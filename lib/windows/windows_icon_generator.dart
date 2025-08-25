@@ -12,10 +12,7 @@ class WindowsIconGenerator extends IconGenerator {
 
   @override
   Future<void> createIcons() async {
-    final imgFilePath = path.join(
-      context.prefixPath,
-      context.windowsConfig!.imagePath ?? context.config.imagePath,
-    );
+    final imgFilePath = path.join(context.prefixPath, context.windowsConfig!.imagePath ?? context.config.imagePath);
 
     context.logger.verbose('Decoding and loading image file from $imgFilePath...');
     final imgFile = await utils.decodeImageFile(imgFilePath);
@@ -35,21 +32,17 @@ class WindowsIconGenerator extends IconGenerator {
     context.logger.verbose('Validating windows config...');
     final windowsConfig = context.windowsConfig;
     if (windowsConfig == null || !windowsConfig.generate) {
-      context.logger.error(
-        'Windows config is not provided or windows.generate is false. Skipped...',
-      );
+      context.logger.error('Windows config is not provided or windows.generate is false. Skipped...');
       return false;
     }
 
     if (windowsConfig.imagePath == null && context.config.imagePath == null) {
-      context.logger.error(
-        'Invalid config. Either provide windows.image_path or image_path',
-      );
+      context.logger.error('Invalid config. Either provide windows.image_path or image_path');
       return false;
     }
 
     // if icon_size is given it should be between 48<=icon_size<=256
-    // because .ico only supports this size
+    // because ICO format only supports this size range
     if (windowsConfig.iconSize != null && (windowsConfig.iconSize! < 48 || windowsConfig.iconSize! > 256)) {
       context.logger.error(
         'Invalid windows.icon_size=${windowsConfig.iconSize}. Icon size should be between 48<=icon_size<=256',
@@ -58,17 +51,12 @@ class WindowsIconGenerator extends IconGenerator {
     }
     final entitesToCheck = [
       path.join(context.prefixPath, constants.windowsDirPath),
-      path.join(
-        context.prefixPath,
-        windowsConfig.imagePath ?? context.config.imagePath,
-      ),
+      path.join(context.prefixPath, windowsConfig.imagePath ?? context.config.imagePath),
     ];
 
     final failedEntityPath = utils.areFSEntiesExist(entitesToCheck);
     if (failedEntityPath != null) {
-      context.logger.error(
-        '$failedEntityPath this file or folder is required to generate windows icons',
-      );
+      context.logger.error('$failedEntityPath this file or folder is required to generate windows icons');
       return false;
     }
 
@@ -80,9 +68,8 @@ class WindowsIconGenerator extends IconGenerator {
       context.windowsConfig!.iconSize ?? constants.windowsDefaultIconSize,
       image,
     );
-    final favIconFile = await utils.createFileIfNotExist(
-      path.join(context.prefixPath, constants.windowsIconFilePath),
-    );
-    await favIconFile.writeAsBytes(encodePng(favIcon));
+    final favIconFile = await utils.createFileIfNotExist(path.join(context.prefixPath, constants.windowsIconFilePath));
+    // Generate proper ICO format (version 3.0) instead of PNG
+    await favIconFile.writeAsBytes(encodeIco(favIcon));
   }
 }
