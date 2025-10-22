@@ -69,7 +69,8 @@ class WindowsIconGenerator extends IconGenerator {
       image,
     );
     final favIconFile = await utils.createFileIfNotExist(path.join(context.prefixPath, constants.windowsIconFilePath));
-    // Generate proper ICO format (version 3.0) instead of PNG
-    await favIconFile.writeAsBytes(encodeIco(favIcon));
+
+    final icoBytes = encodeIco(favIcon);
+    await favIconFile.writeAsBytes(icoBytes);
   }
 }
